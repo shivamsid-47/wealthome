@@ -1,186 +1,65 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
+import { useRef, useState } from "react"
+import { Play, Pause, Volume2, VolumeX, Maximize2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Slider } from "@/components/ui/slider"
-import { Play, Pause, Volume2, VolumeX, Maximize2, RotateCcw } from "lucide-react"
 
 interface VideoPlayerProps {
   src: string
   poster?: string
-  title: string
+  title?: string
 }
 
 export function VideoPlayer({ src, poster, title }: VideoPlayerProps) {
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [isMuted, setIsMuted] = useState(true)
-  const [currentTime, setCurrentTime] = useState(0)
-  const [duration, setDuration] = useState(0)
-  const [volume, setVolume] = useState(1)
-  const [showControls, setShowControls] = useState(true)
-
-  useEffect(() => {
-    const video = videoRef.current
-    if (!video) return
-
-    const updateTime = () => setCurrentTime(video.currentTime)
-    const updateDuration = () => setDuration(video.duration)
-
-    video.addEventListener("timeupdate", updateTime)
-    video.addEventListener("loadedmetadata", updateDuration)
-
-    return () => {
-      video.removeEventListener("timeupdate", updateTime)
-      video.removeEventListener("loadedmetadata", updateDuration)
-    }
-  }, [])
+  const ref = useRef<HTMLVideoElement>(null)
+  const [playing, setPlaying] = useState(false)
+  const [muted, setMuted] = useState(true)
 
   const togglePlay = () => {
-    const video = videoRef.current
-    if (!video) return
-
-    if (isPlaying) {
-      video.pause()
+    if (!ref.current) return
+    if (playing) {
+      ref.current.pause()
     } else {
-      video.play()
+      ref.current.play()
     }
-    setIsPlaying(!isPlaying)
+    setPlaying(!playing)
   }
 
   const toggleMute = () => {
-    const video = videoRef.current
-    if (!video) return
-
-    video.muted = !isMuted
-    setIsMuted(!isMuted)
+    if (!ref.current) return
+    ref.current.muted = !muted
+    setMuted(!muted)
   }
 
-  const handleSeek = (value: number[]) => {
-    const video = videoRef.current
-    if (!video) return
-
-    video.currentTime = value[0]
-    setCurrentTime(value[0])
-  }
-
-  const handleVolumeChange = (value: number[]) => {
-    const video = videoRef.current
-    if (!video) return
-
-    const newVolume = value[0]
-    video.volume = newVolume
-    setVolume(newVolume)
-
-    if (newVolume === 0) {
-      setIsMuted(true)
-      video.muted = true
-    } else if (isMuted) {
-      setIsMuted(false)
-      video.muted = false
-    }
-  }
-
-  const formatTime = (time: number) => {
-    const minutes = Math.floor(time / 60)
-    const seconds = Math.floor(time % 60)
-    return `${minutes}:${seconds.toString().padStart(2, "0")}`
-  }
-
-  const toggleFullscreen = () => {
-    const video = videoRef.current
-    if (!video) return
-
-    if (document.fullscreenElement) {
-      document.exitFullscreen()
-    } else {
-      video.requestFullscreen()
-    }
-  }
-
-  const restart = () => {
-    const video = videoRef.current
-    if (!video) return
-
-    video.currentTime = 0
-    setCurrentTime(0)
+  const enterFullscreen = () => {
+    ref.current?.requestFullscreen?.()
   }
 
   return (
-    <div
-      className="relative bg-black rounded-lg overflow-hidden group"
-      onMouseEnter={() => setShowControls(true)}
-      onMouseLeave={() => setShowControls(false)}
-    >
+    <div className="relative h-full w-full overflow-hidden rounded-lg bg-black">
       <video
-        ref={videoRef}
-        className="w-full h-full object-cover"
+        ref={ref}
+        className="h-full w-full object-cover"
         poster={poster}
-        muted={isMuted}
-        onPlay={() => setIsPlaying(true)}
-        onPause={() => setIsPlaying(false)}
-        onClick={togglePlay}
+        muted={muted}
+        onPlay={() => setPlaying(true)}
+        onPause={() => setPlaying(false)}
       >
         <source src={src} type="video/mp4" />
-        Your browser does not support the video tag.
+        {title ?? "Video not supported"}
       </video>
 
-      {/* Play/Pause Overlay */}
-      {!isPlaying && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-          <Button
-            size="lg"
-            className="rounded-full w-20 h-20 bg-white/90 text-black hover:bg-white"
-            onClick={togglePlay}
-          >
-            <Play className="h-8 w-8 ml-1" />
-          </Button>
-        </div>
-      )}
-
-      {/* Controls */}
-      <div
-        className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0"}`}
-      >
-        {/* Progress Bar */}
-        <div className="mb-4">
-          <Slider value={[currentTime]} max={duration} step={1} onValueChange={handleSeek} className="w-full" />
-        </div>
-
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <Button variant="ghost" size="icon" onClick={togglePlay} className="text-white hover:bg-white/20">
-              {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-            </Button>
-
-            <Button variant="ghost" size="icon" onClick={restart} className="text-white hover:bg-white/20">
-              <RotateCcw className="h-4 w-4" />
-            </Button>
-
-            <div className="flex items-center space-x-2">
-              <Button variant="ghost" size="icon" onClick={toggleMute} className="text-white hover:bg-white/20">
-                {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
-              </Button>
-
-              <div className="w-20">
-                <Slider value={[isMuted ? 0 : volume]} max={1} step={0.1} onValueChange={handleVolumeChange} />
-              </div>
-            </div>
-
-            <span className="text-white text-sm">
-              {formatTime(currentTime)} / {formatTime(duration)}
-            </span>
-          </div>
-
-          <Button variant="ghost" size="icon" onClick={toggleFullscreen} className="text-white hover:bg-white/20">
-            <Maximize2 className="h-4 w-4" />
-          </Button>
-        </div>
-      </div>
-
-      {/* Title Overlay */}
-      <div className="absolute top-4 left-4 text-white">
-        <h3 className="text-lg font-semibold">{title}</h3>
+      {/* controls overlay */}
+      <div className="absolute inset-0 flex items-center justify-center gap-4 bg-black/30 opacity-0 transition hover:opacity-100">
+        <Button size="icon" className="rounded-full bg-white text-blue-600" onClick={togglePlay}>
+          {playing ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}
+        </Button>
+        <Button size="icon" variant="secondary" onClick={toggleMute}>
+          {muted ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
+        </Button>
+        <Button size="icon" variant="secondary" onClick={enterFullscreen}>
+          <Maximize2 className="h-5 w-5" />
+        </Button>
       </div>
     </div>
   )
