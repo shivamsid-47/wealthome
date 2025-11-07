@@ -1,7 +1,5 @@
 "use client"
 
-import type React from "react"
-
 import { useState } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
@@ -13,13 +11,7 @@ import { Loader2, Eye, EyeOff } from "lucide-react"
 import { useAuth } from "@/lib/auth"
 import { SocialAuth } from "@/components/social-auth"
 
-interface AuthModalProps {
-  isOpen: boolean
-  onClose: () => void
-  defaultTab?: "login" | "register"
-}
-
-export function AuthModal({ isOpen, onClose, defaultTab = "login" }: AuthModalProps) {
+export function AuthModal({ isOpen, onClose, defaultTab = "login" }) {
   const { login, register, isLoading } = useAuth()
   const [activeTab, setActiveTab] = useState(defaultTab)
   const [showPassword, setShowPassword] = useState(false)
@@ -40,7 +32,7 @@ export function AuthModal({ isOpen, onClose, defaultTab = "login" }: AuthModalPr
     confirmPassword: "",
   })
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = async (e) => {
     e.preventDefault()
     setError("")
 
@@ -58,7 +50,7 @@ export function AuthModal({ isOpen, onClose, defaultTab = "login" }: AuthModalPr
     }
   }
 
-  const handleRegister = async (e: React.FormEvent) => {
+  const handleRegister = async (e) => {
     e.preventDefault()
     setError("")
 
@@ -97,7 +89,7 @@ export function AuthModal({ isOpen, onClose, defaultTab = "login" }: AuthModalPr
           <DialogTitle className="text-center text-2xl font-bold">Welcome to Wealthome</DialogTitle>
         </DialogHeader>
 
-        <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as "login" | "register")}>
+        <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value)}>
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="login">Login</TabsTrigger>
             <TabsTrigger value="register">Sign Up</TabsTrigger>

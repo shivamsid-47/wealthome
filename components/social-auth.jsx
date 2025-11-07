@@ -1,10 +1,9 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Github, Facebook, ChromeIcon as Google } from "lucide-react"
+import { Github, Facebook, Cookie as Google } from "lucide-react"
 
 export function SocialAuth() {
-  // In a real-world app these would trigger OAuth flows.
   return (
     <div className="mt-4 flex flex-col gap-3">
       <Button variant="outline" className="w-full bg-transparent">

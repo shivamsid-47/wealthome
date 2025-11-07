@@ -135,16 +135,16 @@ export default function WealthomeWebsite() {
   const { user, updateUser } = useAuth()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
-  const [authModalTab, setAuthModalTab] = useState<"login" | "register">("login")
-  const [favorites, setFavorites] = useState<number[]>(user?.favorites.map(Number) || [])
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
-  const [selectedProperty, setSelectedProperty] = useState<(typeof properties)[0] | null>(null)
+  const [authModalTab, setAuthModalTab] = useState("login")
+  const [favorites, setFavorites] = useState(user?.favorites.map(Number) || [])
+  const [viewMode, setViewMode] = useState("grid")
+  const [selectedProperty, setSelectedProperty] = useState(null)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [isVideoPlaying, setIsVideoPlaying] = useState(false)
   const [isVideoMuted, setIsVideoMuted] = useState(true)
-  const videoRef = useRef<HTMLVideoElement>(null)
+  const videoRef = useRef(null)
 
-  const toggleFavorite = (id: number) => {
+  const toggleFavorite = (id) => {
     const newFavorites = favorites.includes(id) ? favorites.filter((fav) => fav !== id) : [...favorites, id]
 
     setFavorites(newFavorites)
@@ -172,12 +172,12 @@ export default function WealthomeWebsite() {
     }
   }
 
-  const openAuthModal = (tab: "login" | "register") => {
+  const openAuthModal = (tab) => {
     setAuthModalTab(tab)
     setIsAuthModalOpen(true)
   }
 
-  const PropertyCard = ({ property }: { property: (typeof properties)[0] }) => (
+  const PropertyCard = ({ property }) => (
     <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
       <div className="relative overflow-hidden">
         <Image

@@ -4,12 +4,7 @@ import { useState } from "react"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
 
-interface ImageGalleryProps {
-  images: string[]
-  title?: string
-}
-
-export function ImageGallery({ images, title }: ImageGalleryProps) {
+export function ImageGallery({ images, title }) {
   const [current, setCurrent] = useState(0)
 
   if (images.length === 0) return null

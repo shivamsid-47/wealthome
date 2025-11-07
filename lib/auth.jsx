@@ -1,30 +1,9 @@
 "use client"
 
-import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
-
-export interface User {
-  id: string
-  name: string
-  email: string
-  avatar?: string
-  role: "user" | "agent" | "admin"
-  favorites: string[]
-  savedSearches: any[]
-}
-
-interface AuthContextType {
-  user: User | null
-  login: (email: string, password: string) => Promise<boolean>
-  register: (name: string, email: string, password: string) => Promise<boolean>
-  logout: () => void
-  isLoading: boolean
-  updateUser: (updates: Partial<User>) => void
-}
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined)
+import { createContext, useContext, useState, useEffect } from "react"
 
 // Mock users database
-const mockUsers: User[] = [
+const mockUsers = [
   {
     id: "1",
     name: "John Doe",
@@ -45,8 +24,10 @@ const mockUsers: User[] = [
   },
 ]
 
-export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null)
+const AuthContext = createContext(undefined)
+
+export function AuthProvider({ children }) {
+  const [user, setUser] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
@@ -58,7 +39,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoading(false)
   }, [])
 
-  const login = async (email: string, password: string): Promise<boolean> => {
+  const login = async (email, password) => {
     setIsLoading(true)
 
     // Simulate API call
@@ -76,7 +57,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return false
   }
 
-  const register = async (name: string, email: string, password: string): Promise<boolean> => {
+  const register = async (name, email, password) => {
     setIsLoading(true)
 
     // Simulate API call
@@ -88,7 +69,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return false
     }
 
-    const newUser: User = {
+    const newUser = {
       id: Date.now().toString(),
       name,
       email,
@@ -109,7 +90,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem("wealthome_user")
   }
 
-  const updateUser = (updates: Partial<User>) => {
+  const updateUser = (updates) => {
     if (user) {
       const updatedUser = { ...user, ...updates }
       setUser(updatedUser)

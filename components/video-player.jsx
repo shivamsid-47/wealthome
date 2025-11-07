@@ -4,14 +4,8 @@ import { useRef, useState } from "react"
 import { Play, Pause, Volume2, VolumeX, Maximize2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
-interface VideoPlayerProps {
-  src: string
-  poster?: string
-  title?: string
-}
-
-export function VideoPlayer({ src, poster, title }: VideoPlayerProps) {
-  const ref = useRef<HTMLVideoElement>(null)
+export function VideoPlayer({ src, poster, title }) {
+  const ref = useRef(null)
   const [playing, setPlaying] = useState(false)
   const [muted, setMuted] = useState(true)
 
@@ -46,7 +40,7 @@ export function VideoPlayer({ src, poster, title }: VideoPlayerProps) {
         onPause={() => setPlaying(false)}
       >
         <source src={src} type="video/mp4" />
-        {title ?? "Video not supported"}
+        Your browser does not support the video tag.
       </video>
 
       {/* controls overlay */}
