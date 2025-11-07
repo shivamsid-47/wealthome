@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useRef } from "react"
+import Link from "next/link"
 import Image from "next/image"
 import { Search, Menu, X, Heart, Bed, Bath, Square, Star, ArrowRight, MapPin, Filter, Grid, List } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -245,30 +246,30 @@ export default function WealthomeWebsite() {
       <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm shadow-sm transition-all duration-300">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-2">
+            <Link href="/" className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-lg">W</span>
               </div>
               <span className="text-xl font-bold text-gray-900">Wealthome</span>
-            </div>
+            </Link>
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-8">
-              <a href="#" className="text-blue-600 font-medium">
+              <Link href="/" className="text-blue-600 font-medium">
                 Home
-              </a>
-              <a href="#" className="text-gray-600 hover:text-blue-600 transition-colors">
+              </Link>
+              <Link href="/rent" className="text-gray-600 hover:text-blue-600 transition-colors">
                 Rent
-              </a>
-              <a href="#" className="text-gray-600 hover:text-blue-600 transition-colors">
+              </Link>
+              <Link href="/sell" className="text-gray-600 hover:text-blue-600 transition-colors">
                 Sell
-              </a>
-              <a href="#" className="text-gray-600 hover:text-blue-600 transition-colors">
+              </Link>
+              <Link href="/buy" className="text-gray-600 hover:text-blue-600 transition-colors">
                 Buy
-              </a>
-              <a href="#" className="text-gray-600 hover:text-blue-600 transition-colors">
+              </Link>
+              <Link href="/about" className="text-gray-600 hover:text-blue-600 transition-colors">
                 About
-              </a>
+              </Link>
             </nav>
 
             <div className="hidden md:flex items-center space-x-4">
@@ -294,21 +295,21 @@ export default function WealthomeWebsite() {
           {isMenuOpen && (
             <div className="md:hidden py-4 border-t">
               <nav className="flex flex-col space-y-4">
-                <a href="#" className="text-blue-600 font-medium">
+                <Link href="/" className="text-blue-600 font-medium">
                   Home
-                </a>
-                <a href="#" className="text-gray-600">
+                </Link>
+                <Link href="/rent" className="text-gray-600">
                   Rent
-                </a>
-                <a href="#" className="text-gray-600">
+                </Link>
+                <Link href="/sell" className="text-gray-600">
                   Sell
-                </a>
-                <a href="#" className="text-gray-600">
+                </Link>
+                <Link href="/buy" className="text-gray-600">
                   Buy
-                </a>
-                <a href="#" className="text-gray-600">
+                </Link>
+                <Link href="/about" className="text-gray-600">
                   About
-                </a>
+                </Link>
                 <div className="flex flex-col space-y-2 pt-4">
                   {user ? (
                     <div className="flex items-center space-x-2">
