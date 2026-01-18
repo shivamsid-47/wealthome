@@ -15,6 +15,7 @@ import { AuthModal } from "@/components/auth-modal"
 import { UserMenu } from "@/components/user-menu"
 import { ImageGallery } from "@/components/image-gallery"
 import { VideoPlayer } from "@/components/video-player"
+import { InteractiveSearch } from "@/components/interactive-search"
 
 const properties = [
   {
@@ -343,26 +344,8 @@ export default function WealthomeWebsite() {
                 place that feels like home.
               </p>
 
-              {/* Enhanced Search Bar */}
-              <Card className="p-6 bg-white text-gray-900">
-                <div className="grid md:grid-cols-4 gap-4">
-                  <Select defaultValue="buy">
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="buy">Buy</SelectItem>
-                      <SelectItem value="sell">Sell</SelectItem>
-                      <SelectItem value="rent">Rent</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <Input placeholder="Location..." className="md:col-span-2" />
-                  <Button className="w-full">
-                    <Search className="h-4 w-4 mr-2" />
-                    Search
-                  </Button>
-                </div>
-              </Card>
+              {/* Interactive Search Bar */}
+              <InteractiveSearch variant="default" accentColor="blue" />
             </div>
 
             <div className="relative">
@@ -407,10 +390,12 @@ export default function WealthomeWebsite() {
                 <Filter className="h-4 w-4 mr-2" />
                 Filter
               </Button>
-              <Button variant="outline">
-                Explore More
-                <ArrowRight className="h-4 w-4 ml-2" />
-              </Button>
+              <Link href="/explore">
+                <Button variant="outline">
+                  Explore More
+                  <ArrowRight className="h-4 w-4 ml-2" />
+                </Button>
+              </Link>
             </div>
           </div>
 
@@ -494,10 +479,12 @@ export default function WealthomeWebsite() {
           </div>
 
           <div className="text-center mt-8">
-            <Button size="lg" className="bg-blue-600 hover:bg-blue-700">
-              View All Video Tours
-              <ArrowRight className="h-4 w-4 ml-2" />
-            </Button>
+            <Link href="/video-tours">
+              <Button size="lg" className="bg-blue-600 hover:bg-blue-700">
+                View All Video Tours
+                <ArrowRight className="h-4 w-4 ml-2" />
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

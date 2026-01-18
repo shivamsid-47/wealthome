@@ -10,6 +10,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { InteractiveSearch } from "@/components/interactive-search"
 
 const featuredProperties = [
   {
@@ -111,27 +112,8 @@ export default function BuyPage() {
               Explore thousands of properties and find the perfect place to call home
             </p>
 
-            {/* Search Bar */}
-            <Card className="p-4 md:p-6 bg-white text-gray-900">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <Input placeholder="City, neighborhood, or ZIP..." className="md:col-span-2" />
-                <Select defaultValue="any">
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="any">Any Price</SelectItem>
-                    <SelectItem value="0-500k">$0 - $500k</SelectItem>
-                    <SelectItem value="500k-1m">$500k - $1M</SelectItem>
-                    <SelectItem value="1m+">$1M+</SelectItem>
-                  </SelectContent>
-                </Select>
-                <Button className="w-full">
-                  <Search className="h-4 w-4 mr-2" />
-                  Search
-                </Button>
-              </div>
-            </Card>
+            {/* Interactive Search Bar */}
+            <InteractiveSearch variant="default" accentColor="purple" />
           </div>
         </div>
       </section>
